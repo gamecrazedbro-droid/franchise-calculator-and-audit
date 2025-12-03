@@ -82,7 +82,7 @@ margin_pct = (net_profit / projected_revenue) * 100 if projected_revenue > 0 els
 
 # --- MAIN DASHBOARD ---
 st.title("🚦 Franchise ROI Auditor")
-st.caption("Powered by PitStop Studios Intelligence & Gemini 2.0")
+st.caption("Powered by PitStop Studios Intelligence")
 
 # METRICS DISPLAY
 c1, c2, c3, c4 = st.columns(4)
