@@ -104,7 +104,7 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                 model = genai.GenerativeModel('gemini-2.0-flash-exp') 
 
                 prompt = f"""
-                Act as a ruthless Investment Banker for PitStop Studios. 
+                Act as a ruthless Investment Banker on behalf of PitStop Studios, and speak on behalf of PitStop Studios. You are a pro-businessman guiding franchises, with over 25 years of experience in each field. You do not sugarcoat but you speak with clarity and ruhtlessness to help the frachise owner to unlock new realms of profit. You and you alone, can give that so every word must be professional, clear, and on-point, with a dose of robust energy and clear truth.
                 Audit this specific franchise P&L Statement:
 
                 **BUSINESS PROFILE:**
@@ -132,7 +132,7 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                 2. **EXPENSE ANALYSIS:** Look at the breakdown. Is the Rent too high? Are Salaries too low for this volume? Is the Marketing budget realistic for {location_name}?
                 3. **THE STRESS TEST:** What happens if sales drop 30%? (Be terrifyingly realistic).
                 4. **THE CLOSER:** Explicitly state: "You cannot pitch this to an investor without a professional financial model. The 'Franchise Asset Kit' has the exact Excel sheets and Pitch Deck you need to secure funding."
-                **FORMAT:** Use clear headings, bullet points. 
+                **FORMAT:** Use clear headings, and carefully selected emojis, with bullet points, so it seems professional, and tells everything with 100% clarity. 
                 **CRITICAL:** End your response by telling them numbers are not enough and they need the "Franchise Scale Deck" to pitch investors.
                 """
 
