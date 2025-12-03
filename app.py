@@ -66,13 +66,13 @@ with col1:
     royalty = st.number_input("Royalty (₹)", 0, 500000, 0, step=1000, help="Franchise Royalty Fee")
 
 with col2:
-    salaries = st.number_input("Salaries (₹)", 0, 2000000, 60000, step=5000)
+    salaries = st.number_input("Salaries (₹)", 0, 2000000, 60000, step=1000)
     misc = st.number_input("Misc. (₹)", 0, 200000, 5000, step=1000)
     cogs_pct = st.slider("COGS % (Cost of Making)", 0, 100, 35, help="% of Revenue spent on raw materials")
 
 st.sidebar.divider()
 st.sidebar.header("🏗️ 4. Setup Cost")
-capex = st.sidebar.number_input("Total Investment (CAPEX) (₹)", min_value=50000, value=1500000, step=50000)
+capex = st.sidebar.number_input("Total Investment (CAPEX) (₹)", min_value=50000, value=1500000, step=10000)
 
 # --- CALCULATIONS ---
 monthly_cogs = projected_revenue * (cogs_pct / 100)
@@ -132,7 +132,7 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                 2. **EXPENSE ANALYSIS:** Look at the breakdown. Is the Rent too high? Are Salaries too low for this volume? Is the Marketing budget realistic for {location_name}?
                 3. **THE STRESS TEST:** What happens if sales drop 30%? (Be terrifyingly realistic).
                 4. **THE CLOSER:** Explicitly state: "You cannot pitch this to an investor without a professional financial model. The 'Franchise Asset Kit' has the exact Excel sheets and Pitch Deck you need to secure funding."
-                **FORMAT:** Use clear headings, emojis, and bullet points. 
+                **FORMAT:** Use clear headings, bullet points. 
                 **CRITICAL:** End your response by telling them numbers are not enough and they need the "Franchise Scale Deck" to pitch investors.
                 """
 
