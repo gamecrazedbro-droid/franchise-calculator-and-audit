@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # --- PAGE CONFIGURATION ---
-st.set_page_config(page_title="PitStop Franchise Auditor", page_icon="🚦", layout="wide")
+st.set_page_config(page_title="PitStop Franchise Auditor", page_icon="tj", layout="wide")
 
 # --- CONFIGURE AI ---
 try:
@@ -32,80 +32,106 @@ st.markdown("""
         margin-top: 20px;
         color: #333;
     }
+    .metric-container {
+        background-color: #ffffff;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+    }
     </style>
     """, unsafe_allow_html=True)
 
-# --- SIDEBAR INPUTS (RESTORED) ---
-st.sidebar.image("https://cdn-icons-png.flaticon.com/512/2666/2666505.png", width=50)
-st.sidebar.header("🏢 1. Business Profile")
-
-industry = st.sidebar.selectbox(
-    "Industry Type",
-    ("Cafe / QSR", "Fitness / Gym", "Cloud Kitchen", "Retail Store", "Salon / Spa")
-)
-location_name = st.sidebar.text_input("Location / City Area", placeholder="e.g. Tirupati High Street")
+# --- SIDEBAR INPUTS ---
+st.sidebar.header("🏢 1. Business Identity")
+industry = st.sidebar.selectbox("Industry Type", ["Cafe / QSR", "Fitness / Gym", "Cloud Kitchen", "Retail Store", "Salon / Spa"])
+location_name = st.sidebar.text_input("Target Location", placeholder="e.g. Jubilee Hills, Hyderabad")
 
 st.sidebar.divider()
-st.sidebar.header("💰 2. The Numbers")
-
-capex = st.sidebar.number_input("Total Setup Cost (₹)", min_value=50000, value=1500000, step=50000)
-rent = st.sidebar.number_input("Monthly Rent (₹)", min_value=0, value=50000, step=5000)
-marketing_budget = st.sidebar.number_input("Marketing Budget (₹/mo)", value=10000, step=1000)
+st.sidebar.header("💰 2. Revenue Model")
 daily_orders = st.sidebar.number_input("Daily Footfall / Orders", min_value=1, value=80, step=5)
 ticket_size = st.sidebar.number_input("Average Bill Value (₹)", min_value=10, value=200, step=10)
+# Auto-calculate Revenue for reference
+projected_revenue = daily_orders * ticket_size * 30
+st.sidebar.caption(f"Projected Monthly Revenue: ₹{projected_revenue:,.0f}")
 
 st.sidebar.divider()
-st.sidebar.header("⚔️ 3. Market Context")
-competitors = st.sidebar.slider("Competitors nearby (1km radius)", 0, 20, 5)
+st.sidebar.header("💸 3. Monthly Expense Breakdown")
+
+col1, col2 = st.sidebar.columns(2)
+with col1:
+    rent = st.number_input("Rent (₹)", 0, 1000000, 50000, step=5000)
+    utilities = st.number_input("Utilities (₹)", 0, 500000, 15000, step=1000, help="Electricity, Water, Internet")
+    marketing = st.number_input("Marketing (₹)", 0, 500000, 10000, step=1000)
+    royalty = st.number_input("Royalty (₹)", 0, 500000, 0, step=1000, help="Franchise Royalty Fee")
+
+with col2:
+    salaries = st.number_input("Salaries (₹)", 0, 2000000, 60000, step=5000)
+    misc = st.number_input("Misc. (₹)", 0, 200000, 5000, step=1000)
+    cogs_pct = st.slider("COGS % (Cost of Making)", 0, 100, 35, help="% of Revenue spent on raw materials")
+
+st.sidebar.divider()
+st.sidebar.header("🏗️ 4. Setup Cost")
+capex = st.sidebar.number_input("Total Investment (CAPEX) (₹)", min_value=50000, value=1500000, step=50000)
+
+# --- CALCULATIONS ---
+monthly_cogs = projected_revenue * (cogs_pct / 100)
+total_monthly_expenses = rent + utilities + marketing + royalty + misc + salaries + monthly_cogs
+net_profit = projected_revenue - total_monthly_expenses
+margin_pct = (net_profit / projected_revenue) * 100 if projected_revenue > 0 else 0
 
 # --- MAIN DASHBOARD ---
 st.title("🚦 Franchise ROI Auditor")
 st.caption("Powered by PitStop Studios Intelligence & Gemini 2.0")
 
-# Calculate basic numbers for display
-revenue = daily_orders * ticket_size * 30
-
-# Show Live Metrics
-c1, c2, c3 = st.columns(3)
-c1.metric("Projected Monthly Sales", f"₹{revenue:,.0f}")
-if revenue > 0:
-    c2.metric("Rent to Sales Ratio", f"{(rent/revenue)*100:.1f}%")
-else:
-    c2.metric("Rent to Sales Ratio", "0%")
-c3.metric("Competition Level", f"{competitors} Rivals")
+# METRICS DISPLAY
+c1, c2, c3, c4 = st.columns(4)
+c1.metric("Monthly Revenue", f"₹{projected_revenue:,.0f}")
+c2.metric("Total Expenses", f"₹{total_monthly_expenses:,.0f}", delta=f"-{monthly_cogs:,.0f} COGS", delta_color="inverse")
+c3.metric("Net Profit", f"₹{net_profit:,.0f}")
+c4.metric("Net Margin", f"{margin_pct:.1f}%")
 
 st.divider()
 
-# --- THE AI BUTTON ---
+# --- AI BUTTON ---
 if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
     if not location_name:
         st.warning("⚠️ Please enter a Location Name for a better audit.")
     else:
-        with st.spinner('Gemini 2.0 is stress-testing your model...'):
+        with st.spinner('The Ruthless Banker is analyzing your P&L statement...'):
             try:
-                # ---------------------------------------------------------
-                # MODEL SELECTOR - USING GEMINI 2.0 FLASH EXP
+                # MODEL SELECTOR
                 model = genai.GenerativeModel('gemini-2.0-flash-exp') 
-                # ---------------------------------------------------------
 
                 prompt = f"""
                 Act as a ruthless Investment Banker for PitStop Studios. 
-                Audit this franchise business plan:
+                Audit this specific franchise P&L Statement:
 
-                **BUSINESS DATA:**
+                **BUSINESS PROFILE:**
                 - Industry: {industry}
                 - Location: {location_name}
                 - Setup Cost (CAPEX): ₹{capex}
-                - Monthly Rent: ₹{rent}
-                - Marketing Budget: ₹{marketing_budget}
-                - Projected Monthly Revenue: ₹{revenue}
-                - Competitors Nearby: {competitors}
+
+                **MONTHLY FINANCIALS:**
+                - Revenue: ₹{projected_revenue}
+                - COGS (Cost of Goods): ₹{monthly_cogs} ({cogs_pct}%)
+                - Rent: ₹{rent}
+                - Salaries: ₹{salaries}
+                - Utilities: ₹{utilities}
+                - Marketing: ₹{marketing}
+                - Royalty: ₹{royalty}
+                - Misc: ₹{misc}
+                
+                **THE BOTTOM LINE:**
+                - Total Expenses: ₹{total_monthly_expenses}
+                - Net Monthly Profit: ₹{net_profit}
+                - Margin: {margin_pct}%
 
                 **YOUR TASK:**
-                1. **THE VERDICT:** Green/Yellow/Red Light based on payback period and rent ratio.
-                2. **REALITY CHECK:** Criticize their Marketing Budget vs Competitor count. Is the Rent too high for {location_name}?
-                3. **THE STRESS TEST:** What happens if sales drop 30%?
-                4. **THE 'JAY' PITCH:** Write a 2-sentence investment thesis for a Corporate VP investor.
+                1. **THE VERDICT:** Green/Yellow/Red Light based on the Net Profit and Payback Period.
+                2. **EXPENSE ANALYSIS:** Look at the breakdown. Is the Rent too high? Are Salaries too low for this volume? Is the Marketing budget realistic for {location_name}?
+                3. **THE STRESS TEST:** If revenue drops 20%, does this turn into a loss?
+                4. **THE 'JAY' PITCH:** Write a 2-sentence investment thesis based on these exact margins.
 
                 **FORMAT:** Use clear headings, emojis, and bullet points. 
                 **CRITICAL:** End your response by telling them numbers are not enough and they need the "Franchise Scale Deck" to pitch investors.
@@ -116,7 +142,7 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                 # Display Result
                 st.markdown(f"""<div class="report-box">{response.text}</div>""", unsafe_allow_html=True)
                 
-                # --- THE UPSELL (Only shows after AI runs) ---
+                # --- THE UPSELL ---
                 st.divider()
                 st.subheader("🚀 You passed the Audit. Now close the Deal.")
                 c_left, c_right = st.columns([2, 1])
@@ -124,10 +150,8 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                     st.write("The AI gave you the logic. Now you need the **Presentation**.")
                     st.write("Download the **Franchise Scale Deck Template** (Pre-formatted for 'Jay' Investors).")
                 with c_right:
-                    # ---------------------------------------------------------
                     # PASTE YOUR COSMOFEED LINK HERE
                     link = 'https://cosmofeed.com/vp/YOUR_LINK_HERE' 
-                    # ---------------------------------------------------------
                     st.markdown(f"""
                     <a href="{link}" target="_blank">
                         <button>📥 DOWNLOAD ASSET KIT</button>
