@@ -130,9 +130,8 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                 **YOUR TASK:**
                 1. **THE VERDICT:** Green/Yellow/Red Light based on the Net Profit and Payback Period.
                 2. **EXPENSE ANALYSIS:** Look at the breakdown. Is the Rent too high? Are Salaries too low for this volume? Is the Marketing budget realistic for {location_name}?
-                3. **THE STRESS TEST:** If revenue drops 20%, does this turn into a loss?
-                4. **THE 'JAY' PITCH:** Write a 2-sentence investment thesis based on these exact margins.
-
+                3. **THE STRESS TEST:** What happens if sales drop 30%? (Be terrifyingly realistic).
+                4. **THE CLOSER:** Explicitly state: "You cannot pitch this to an investor without a professional financial model. The 'Franchise Asset Kit' has the exact Excel sheets and Pitch Deck you need to secure funding."
                 **FORMAT:** Use clear headings, emojis, and bullet points. 
                 **CRITICAL:** End your response by telling them numbers are not enough and they need the "Franchise Scale Deck" to pitch investors.
                 """
