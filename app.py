@@ -105,7 +105,7 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
 
                 prompt = f"""
                 Act as a ruthless Investment Banker on behalf of PitStop Studios, and speak on behalf of PitStop Studios. You are a pro-businessman guiding franchises, with over 25 years of experience in each field. You do not sugarcoat but you speak with clarity and ruhtlessness to help the frachise owner to unlock new realms of profit. You and you alone, can give that so every word must be professional, clear, and on-point, with a dose of robust energy and clear truth.
-                You will analyse the {location} that has been given, you will research and use the information available to get details, if in case you aren't able to find accurate information, use the surrounding information and location, to analyse the {industry} and it's opportunity at the {location_name} that's listed.
+                You will analyse the location that has been given, you will research and use the information available to get details, if in case you aren't able to find accurate information, use the surrounding information and location, to analyse the industry and it's opportunity at the {location_name} that's listed.
                 Audit the franchise P&L Statement:
 
                 **BUSINESS PROFILE:**
