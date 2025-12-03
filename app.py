@@ -54,9 +54,8 @@ st.caption("Running on Gemini 2.0 Flash (Experimental)")
 if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
     with st.spinner('Gemini 2.0 is crunching the numbers...'):
         try:
-            # HERE IS THE SWITCH TO 2.0
-            model = genai.GenerativeModel('gemini-2.0-flash-exp') 
-            
+            model = genai.GenerativeModel('gemini-3.0-pro') 
+# ^ REPLACE 'gemini-3.0-pro' WITH THE EXACT ID FROM AI STUDIO
             prompt = f"""
             Act as a ruthless Investment Banker. Audit this franchise plan:
             - Business: {industry} in {location}
