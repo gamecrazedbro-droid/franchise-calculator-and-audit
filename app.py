@@ -147,7 +147,7 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                 c_left, c_right = st.columns([2, 1])
                 with c_left:
                     st.write("The AI gave you the logic. Now you need the **Presentation**.")
-                    st.write("Download the **Franchise Scale Deck Template** (Pre-formatted for 'Jay' Investors).")
+                    st.write("Download the **Franchise Scale Deck Template** (Pre-formatted for your Investors).")
                 with c_right:
                     # PASTE YOUR COSMOFEED LINK HERE
                     link = 'https://cosmofeed.com/vp/YOUR_LINK_HERE' 
