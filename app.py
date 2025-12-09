@@ -49,8 +49,8 @@ location_name = st.sidebar.text_input("Target Location", placeholder="e.g. Jubil
 
 st.sidebar.divider()
 st.sidebar.header("💰 2. Revenue Model")
-daily_orders = st.sidebar.number_input("Daily Footfall / Orders", min_value=1, value=80, step=5)
-ticket_size = st.sidebar.number_input("Average Bill Value (₹)", min_value=10, value=200, step=10)
+daily_orders = st.sidebar.number_input("Daily Footfall / Orders", min_value=1, value=120, step=5)
+ticket_size = st.sidebar.number_input("Average Bill Value (₹)", min_value=10, value=250, step=10)
 # Auto-calculate Revenue for reference
 projected_revenue = daily_orders * ticket_size * 30
 st.sidebar.caption(f"Projected Monthly Revenue: ₹{projected_revenue:,.0f}")
@@ -82,7 +82,7 @@ margin_pct = (net_profit / projected_revenue) * 100 if projected_revenue > 0 els
 
 # --- MAIN DASHBOARD ---
 st.title("🚦 Franchise ROI Auditor")
-st.caption("Powered by PitStop Studios Intelligence")
+st.caption("Powered by PitStop AI Intelligence")
 
 # METRICS DISPLAY
 c1, c2, c3, c4 = st.columns(4)
@@ -104,7 +104,7 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                 model = genai.GenerativeModel('gemini-2.0-flash-exp') 
 
                 prompt = f"""
-                Act as a ruthless Investment Banker on behalf of PitStop Studios, and speak on behalf of PitStop Studios. You are a pro-businessman guiding franchises, with over 25 years of experience in each field. You do not sugarcoat but you speak with clarity and ruhtlessness to help the frachise owner to unlock new realms of profit. You and you alone, can give that so every word must be professional, clear, and on-point, with a dose of robust energy and clear truth.
+                Act as a ruthless Investment Banker who is scrutinizing a business model and showcasing the reality of current world to the user. You are a pro-businessman guiding franchises, with over 25 years of experience in each field. You do not sugarcoat but you speak with clarity and ruhtlessness to help the frachise owner to unlock new realms of profit. You and you alone, can give that so every word must be professional, clear, and on-point, with a dose of robust energy and clear truth.
                 You will analyse the location that has been given, you will research and use the information available to get details, if in case you aren't able to find accurate information, use the surrounding information and location, to analyse the industry and it's opportunity at the {location_name} that's listed.
                 Audit the franchise P&L Statement:
 
@@ -131,7 +131,7 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                 **YOUR TASK:**
                 1. **THE VERDICT:** Green/Yellow/Red Light based on the Net Profit and Payback Period, and the current market scenario in the respective {location_name}.
                 2. **EXPENSE ANALYSIS:** Look at the breakdown. Is the Rent too high? Are Salaries too low for this volume? Is the Marketing budget realistic for {location_name}?
-                3. **THE STRESS TEST:** What happens if sales drop 30%? (Be terrifyingly realistic).
+                3. **THE STRESS TEST:** What happens if sales drop 50%? (Be terrifyingly realistic).
                 4. **THE CLOSER:** Explicitly state: "You cannot pitch this to an investor without a professional financial model. The 'Franchise Asset Kit' has the exact Excel sheets and Pitch Deck you need to secure funding."
                 **FORMAT:** Use clear headings, and carefully selected emojis, with bullet points, so it seems professional, and tells everything with 100% clarity. 
                 **CRITICAL:** End your response by telling them numbers are not enough and they need the "Franchise Scale Deck" to pitch investors.
