@@ -4,6 +4,16 @@ import google.generativeai as genai
 # --- PAGE CONFIGURATION ---
 st.set_page_config(page_title="PitStop Franchise Auditor", page_icon="tj", layout="wide")
 
+# --- HIDE STREAMLIT STYLE ---
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
 # --- CONFIGURE AI ---
 try:
     if "GEMINI_API_KEY" in st.secrets:
