@@ -7,7 +7,7 @@ st.set_page_config(page_title="PitStop Franchise Auditor", page_icon="tj", layou
 # --- HIDE STREAMLIT STYLE ---
 hide_st_style = """
             <style>
-            #MainMenu {visibility: hidden;}
+            #MainMenu {visibility: visible;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
             </style>
