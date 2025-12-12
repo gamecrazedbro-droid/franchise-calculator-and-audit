@@ -161,7 +161,7 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                     st.write("Download the **Franchise Scale Deck Template** (Pre-formatted for your Investors).")
                 with c_right:
                     # PASTE YOUR COSMOFEED LINK HERE
-                    link = 'https://superprofile.bio/india-symposium' 
+                    link = 'https://superprofile.bio/vp/the-franchise-asset-kit' 
                     st.markdown(f"""
                     <a href="{link}" target="_blank">
                         <button>📥 DOWNLOAD ASSET KIT</button>
