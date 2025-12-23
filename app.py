@@ -93,6 +93,10 @@ margin_pct = (net_profit / projected_revenue) * 100 if projected_revenue > 0 els
 # --- MAIN DASHBOARD ---
 st.title("🚦 Franchise ROI Auditor")
 st.caption("Powered by PitStop AI Intelligence")
+# --- MOBILE GUIDE (The Fix) ---
+with st.expander("📱 ON MOBILE? CLICK HERE FIRST", expanded=True):
+    st.info("👈 **Tap the '>' Arrow** in the top-left corner to enter your Rent & Business Details.")
+    st.write("*(On Desktop, the menu is already open on the left)*")
 
 # METRICS DISPLAY
 c1, c2, c3, c4 = st.columns(4)
