@@ -221,56 +221,6 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                         <button>📥 DOWNLOAD ASSET KIT</button>
                     </a>
                     """, unsafe_allow_html=True)
-
-            except Exception as e:
-                if not location_name:
-        st.warning("⚠️ Please enter Location for an informed Audit.")
-    else:
-        with st.spinner('🔍 Analyzing Rent-to-Revenue Ratio... Stress-testing Swiggy Commissions... Auditing Staff Costs...'):
-            try:
-                # MODEL SELECTOR
-                model = genai.GenerativeModel('gemini-2.0-flash-exp') 
-
-# --- 1. HARDCODED MARKET INTELLIGENCE (The "Brain") ---
-                market_data = """
-                HYDERABAD MARKET BENCHMARKS (2025):
-                [Zone A: Jubilee Hills, Banjara Hills, Hitech City]
-                - Danger Rent: > ₹120/sqft
-                - Survival Daily Orders: Must exceed 100/day
-                - Safe Rent-to-Revenue Ratio: Max 18%
-
-                [Zone B: Gachibowli, Madhapur, Kondapur]
-                - Danger Rent: > ₹90/sqft
-                - Survival Daily Orders: Must exceed 120/day (Volume Game)
-                - Safe Rent-to-Revenue Ratio: Max 20%
-
-                [Zone C: Kompally, AS Rao Nagar, Dilsukhnagar, Secunderabad]
-                - Danger Rent: > ₹60/sqft
-                - Safe Rent-to-Revenue Ratio: Max 15% (Lower spending power)
-
-                If any other zone or locations are mentioned, use existing information available online to declare the location's viability in terms of rent-to-revenue, to declare the answer
-                - General Thum Rule: Safe Rent-to-revenue ratio: <25% 
-
-                CRITICAL FINANCIAL RULES:
-                1. RENT TRAP: If Rent > 20% of Revenue -> IMMEDIATE RED LIGHT.
-                2. SALARY BLEED: Staff costs > 25% of Revenue -> HIGH RISK.
-                3. MARKETING VOID: If Marketing Budget < 3% of Revenue -> INVISIBLE BUSINESS.
-                """
-                # --- THE UPSELL ---
-                st.divider()
-                st.subheader("🚀 You passed the Audit. Now close the Deal.")
-                c_left, c_right = st.columns([2, 1])
-                with c_left:
-                    st.write("The AI gave you the logic. Now you need the **Presentation**.")
-                    st.write("Download the **Franchise Scale Deck Template** (Pre-formatted for your Investors).")
-                with c_right:
-                    # PASTE YOUR COSMOFEED LINK HERE
-                    link = 'https://superprofile.bio/vp/the-franchise-asset-kit' 
-                    st.markdown(f"""
-                    <a href="{link}" target="_blank">
-                        <button>📥 DOWNLOAD ASSET KIT</button>
-                    </a>
-                    """, unsafe_allow_html=True)
-
+                    
             except Exception as e:
                 st.error(f"AI Error: {e}. Check your API Key in Secrets.")
