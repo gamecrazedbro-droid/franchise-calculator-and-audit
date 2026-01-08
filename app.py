@@ -108,11 +108,11 @@ c4.metric("Net Margin", f"{margin_pct:.1f}%")
 st.divider()
 
 # --- AI BUTTON ---
-if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
+if st.button("RUN AI AUDIT ()"):
     if not location_name:
-        st.warning("⚠️ Please enter a Location Name for a better audit.")
+        st.warning("⚠️ Please enter Location for an informed Audit.")
     else:
-        with st.spinner('The Ruthless Banker is analyzing your P&L statement...'):
+        with st.spinner('🔍 Analyzing Rent-to-Revenue Ratio... Stress-testing Swiggy Commissions... Auditing Staff Costs...'):
             try:
                 # MODEL SELECTOR
                 model = genai.GenerativeModel('gemini-2.0-flash-exp') 
