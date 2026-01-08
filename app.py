@@ -223,7 +223,7 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                     """, unsafe_allow_html=True)
 
             except Exception as e:
-                st.error(f"AI Error: {e}")    if not location_name:
+                if not location_name:
         st.warning("⚠️ Please enter Location for an informed Audit.")
     else:
         with st.spinner('🔍 Analyzing Rent-to-Revenue Ratio... Stress-testing Swiggy Commissions... Auditing Staff Costs...'):
