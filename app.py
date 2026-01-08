@@ -155,7 +155,7 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
 
                 # --- 1. MARKET INTELLIGENCE ---
                 market_data = """
-                HYDERABAD MARKET REALITY (2025):
+                HYDERABAD MARKET REALITY (2026):
                 [Aggregator Trap]
                 - Zomato/Swiggy Commission: ~24% to 30% on Order Value.
                 - Hidden Cost: Discounts (Startups often run 50% off to get traction).
@@ -190,16 +190,16 @@ if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
                 1. **THE DELIVERY REALITY CHECK:** - Explicitly call out the Commission Cost: "You are paying Zomato ₹{int(commission_cost)} a month. That is more than your electricity bill."
                    - If Net Profit is low (<15%), blame the 'Aggregator Tax'.
 
-                2. **THE RENT AUDIT:**
-                   - Is Rent > 20% of Revenue? If yes, scream **RENT TRAP**.
+                2. **RENT:**
+                   - Is Rent > 20% of Revenue? If yes, it's **RENT TRAP**.
 
                 3. **THE VERDICT:** - **🚦 VERDICT: [RED / YELLOW / GREEN] LIGHT**
                    - Be brutal. If they are relying on Delivery for 50%+ of sales, warn them that they don't own their customers.
 
-                4. **THE CLOSER:** - "Investors hate 'Platform Dependency'. You need a Hybrid Model."
-                   - **Boldly state:** "You cannot pitch this without the **18-Month Financial Model** from the Asset Kit."
+                4. **Closing:** - "Investors hate 'Platform Dependency'. You need a Hybrid Model."
+                   - **Boldly state:** "You cannot pitch this without the **Excel Financial Model** from the Asset Kit."
 
-                TONE: Calculated, Cold, Mathematical. Use tables for the data.
+                TONE: Calculated, Cold, Mathematical. Use tables for the data. Visual representation of data helps you make a more informed decision.
                 """
 
                 response = model.generate_content(prompt)
