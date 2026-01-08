@@ -1,5 +1,6 @@
 import streamlit as st
 import google.generativeai as genai
+import time  # <--- ADD THIS
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(page_title="PitStop Franchise Auditor", page_icon="tj", layout="wide")
@@ -61,6 +62,12 @@ st.sidebar.divider()
 st.sidebar.header("💰 2. Revenue Model")
 daily_orders = st.sidebar.number_input("Daily Footfall / Orders", min_value=1, value=120, step=5)
 ticket_size = st.sidebar.number_input("Average Bill Value (₹)", min_value=10, value=250, step=10)
+# --- IN SECTION 2. REVENUE MODEL ---
+st.sidebar.divider()
+st.sidebar.header("🛵 Delivery & Aggregators")
+delivery_pct = st.sidebar.slider("% of Orders via Zomato/Swiggy", 0, 100, 40, help="Aggregators take ~25-30% commission.")
+avg_commission = 25 # Standard market rate
+#space
 # Auto-calculate Revenue for reference
 projected_revenue = daily_orders * ticket_size * 30
 st.sidebar.caption(f"Projected Monthly Revenue: ₹{projected_revenue:,.0f}")
@@ -89,6 +96,18 @@ monthly_cogs = projected_revenue * (cogs_pct / 100)
 total_monthly_expenses = rent + utilities + marketing + royalty + misc + salaries + monthly_cogs
 net_profit = projected_revenue - total_monthly_expenses
 margin_pct = (net_profit / projected_revenue) * 100 if projected_revenue > 0 else 0
+# --- CALCULATIONS ---
+monthly_cogs = projected_revenue * (cogs_pct / 100)
+
+# Calculate "Swiggy Tax" (Hidden Commission Cost)
+delivery_revenue = projected_revenue * (delivery_pct / 100)
+commission_cost = delivery_revenue * (avg_commission / 100)
+
+# Update Total Expenses to include Commission
+total_monthly_expenses = rent + utilities + marketing + royalty + misc + salaries + monthly_cogs + commission_cost
+
+net_profit = projected_revenue - total_monthly_expenses
+margin_pct = (net_profit / projected_revenue) * 100 if projected_revenue > 0 else 0
 
 # --- MAIN DASHBOARD ---
 st.title("🚦 Franchise ROI Auditor")
@@ -107,9 +126,104 @@ c4.metric("Net Margin", f"{margin_pct:.1f}%")
 
 st.divider()
 
-# --- AI BUTTON ---
-if st.button("RUN AI AUDIT ()"):
+# --- AI BUTTON WITH CYCLING LOADER ---
+if st.button("RUN AI AUDIT (CONSULT THE BANKER)"):
     if not location_name:
+        st.warning("⚠️ Please enter a Location Name for a better audit.")
+    else:
+        # --- THE CYCLING LOADING SCREEN ---
+        progress_text = st.empty()
+        loading_messages = [
+            "🔍 Analyizing Rental Yield in " + location_name + "...",
+            "📉 Stress-testing Zomato/Swiggy Commissions...",
+            "🥩 Auditing Cost of Goods Sold (COGS)...",
+            "💀 Calculating Break-Even 'Death Line'...",
+            "🚦 Finalizing Investment Verdict..."
+        ]
+        
+        # Cycle through messages (Total ~2.5 seconds)
+        for msg in loading_messages:
+            progress_text.markdown(f"### {msg}")
+            time.sleep(0.6) # Wait time per message
+            
+        progress_text.empty() # Clear the loading text
+
+        # --- RUN THE MODEL ---
+        with st.spinner('⚡ Generating Financial Report...'):
+            try:
+                model = genai.GenerativeModel('gemini-2.0-flash-exp') 
+
+                # --- 1. MARKET INTELLIGENCE ---
+                market_data = """
+                HYDERABAD MARKET REALITY (2025):
+                [Aggregator Trap]
+                - Zomato/Swiggy Commission: ~24% to 30% on Order Value.
+                - Hidden Cost: Discounts (Startups often run 50% off to get traction).
+                
+                [Zone A: Jubilee Hills, Banjara Hills]
+                - Danger Rent: > ₹120/sqft
+                - Survival Mode: Needs High Ticket Size (₹800+) to offset Rent.
+
+                [Zone B: Hitech City, Gachibowli]
+                - Volume Game: Needs 150+ orders/day.
+                - Danger: High competition on Swiggy (Marketing spend must be >10%).
+                """
+
+                # --- 2. THE REFINED PROMPT ---
+                prompt = f"""
+                You are a ruthless Investment Banker & Forensic Auditor.
+                
+                CONTEXT:
+                {market_data}
+
+                USER'S P&L DATA (Monthly):
+                - Business: {industry} in {location_name}
+                - Total Revenue: ₹{projected_revenue}
+                - **The "Swiggy Trap":** {delivery_pct}% of orders are Delivery.
+                - **Aggregator Commission Paid:** ₹{commission_cost} (This is dead money).
+                - Rent: ₹{rent} ({round((rent/projected_revenue)*100, 1)}% of Revenue)
+                - Staff: ₹{salaries}
+                - Marketing: ₹{marketing}
+                - Net Profit: ₹{net_profit} ({margin_pct}%)
+
+                INSTRUCTIONS:
+                1. **THE DELIVERY REALITY CHECK:** - Explicitly call out the Commission Cost: "You are paying Zomato ₹{int(commission_cost)} a month. That is more than your electricity bill."
+                   - If Net Profit is low (<15%), blame the 'Aggregator Tax'.
+
+                2. **THE RENT AUDIT:**
+                   - Is Rent > 20% of Revenue? If yes, scream **RENT TRAP**.
+
+                3. **THE VERDICT:** - **🚦 VERDICT: [RED / YELLOW / GREEN] LIGHT**
+                   - Be brutal. If they are relying on Delivery for 50%+ of sales, warn them that they don't own their customers.
+
+                4. **THE CLOSER:** - "Investors hate 'Platform Dependency'. You need a Hybrid Model."
+                   - **Boldly state:** "You cannot pitch this without the **18-Month Financial Model** from the Asset Kit."
+
+                TONE: Calculated, Cold, Mathematical. Use tables for the data.
+                """
+
+                response = model.generate_content(prompt)
+                
+                # Display Result
+                st.markdown(f"""<div class="report-box">{response.text}</div>""", unsafe_allow_html=True)
+                
+                # --- THE UPSELL ---
+                st.divider()
+                st.subheader("🚀 You passed the Audit. Now close the Deal.")
+                c_left, c_right = st.columns([2, 1])
+                with c_left:
+                    st.write("The AI gave you the logic. Now you need the **Presentation**.")
+                    st.write("Download the **Franchise Scale Deck Template** (Pre-formatted for your Investors).")
+                with c_right:
+                    link = 'https://superprofile.bio/vp/the-franchise-asset-kit' 
+                    st.markdown(f"""
+                    <a href="{link}" target="_blank">
+                        <button>📥 DOWNLOAD ASSET KIT</button>
+                    </a>
+                    """, unsafe_allow_html=True)
+
+            except Exception as e:
+                st.error(f"AI Error: {e}")    if not location_name:
         st.warning("⚠️ Please enter Location for an informed Audit.")
     else:
         with st.spinner('🔍 Analyzing Rent-to-Revenue Ratio... Stress-testing Swiggy Commissions... Auditing Staff Costs...'):
@@ -201,7 +315,7 @@ if st.button("RUN AI AUDIT ()"):
                 1. **THE VERDICT:** Green/Yellow/Red Light based on the Net Profit and Payback Period, and the current market scenario in the respective {location_name}.
                 2. **EXPENSE ANALYSIS:** Look at the breakdown. Is the Rent too high? Are Salaries too low for this volume? Is the Marketing budget realistic for {location_name}?
                 3. **THE STRESS TEST:** What happens if sales drop 50%? (Be terrifyingly realistic).
-                4. **THE CLOSER:** Explicitly state: "You cannot pitch this to an investor without a professional financial model. The 'Franchise Asset Kit' has the exact Excel sheets and Pitch Deck you need to secure funding."
+                4. **THE CLOSER:** Explicitly state: "You cannot pitch this without a professional financial model. The 'Franchise Asset Kit' has the exact Excel sheets and Pitch Deck you need to secure funding."
                 **FORMAT:** Use clear headings, and carefully selected emojis, with bullet points, so it seems professional, and tells everything with 100% clarity. 
                 **CRITICAL:** End your response by telling them numbers are not enough and they need the "Franchise Scale Deck" to pitch investors.
                 """
